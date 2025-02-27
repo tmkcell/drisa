@@ -8,9 +8,9 @@ Inspiration is mainly Arm and their Thumb architecture, which I got the conditio
 Still being drafted, it would be greatly appreciated if you open an issue with your suggestion to this ISA :)
 
 ## Architecture
-### Base integer instruction set (BRI)
+### Base integer instruction set (DR-I)
 16-bit instructions, 16 registers
-- all registers can be used the same, including PC, SP etc
+- all registers can be used the same, including IP (PC), SP etc
 - memory can only be accessed by load stores
 - no immediates outside of shift
 - status flags: sign, zero, carry, overflow, greater than, equal to, less than
@@ -38,7 +38,7 @@ Logical:
 | 1-bit           | 2-bit | 5-bit      | 4-bit      | 4-bit  |
 
 - if shamt/regselect set, 5-bit shamt/reg will select a register, with the top bit being discarded
-- optype shifts left (0), right (1) or right with sign-copy (2)
+- optype shifts left (0), right (2) or right with sign-copy (3)
 
 Memory:
 | pcskip | optype | Rop1  | Rdest | opcode |
@@ -71,7 +71,7 @@ Conditional:
 | 0b1010 | Conditional | conditional and                      |
 | 0b1011 | Conditional | conditional or                       |
 | 0b1100 | Conditional | conditional xor                      |
-### Extended integer instruction set (BRX)
+### Extended integer instruction set (DR-IX)
 Adds multiplication and division capabilities
 | Opcode | Format     | Instruction |
 |--------|------------|-------------|
