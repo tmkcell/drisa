@@ -70,7 +70,7 @@ Adds multiplication and division capabilities
 ## Running (not implemented yet) 
 #### 1. Clone repo
 ```
-git clone https://github.com/tmaakis/brisa.git && cd brisa
+git clone https://github.com/tmkcell/drisa.git && cd drisa
 ```
 #### 2. Compile with meson build system (and install missing dependencies!)
 ```
