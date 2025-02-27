@@ -41,7 +41,7 @@ logical:
 
 | shamt/regselect | optype | shamt/reg | Rdest | opcode | opextend |
 |-----------------|--------|-----------|-------|--------|----------|
-| 1-bit           | 2-bit | 5-bit      | 4-bit | 3-bit  | 2-bit    |
+| 1-bit           | 2-bit | 5-bit      | 4-bit | 3-bit  | 1-bit    |
 
 - if shamt/regselect set, 5-bit shamt/reg will select a register, with the top bit being discarded
 - optype shifts left (0), right (1) or right with sign-copy (2)
