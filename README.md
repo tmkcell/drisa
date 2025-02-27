@@ -3,7 +3,7 @@ After the [psyche](https://github.com/tmkcell/psyche) project, I realised that m
 For example, an ld instruction uses the I-type instruction format, but without actually using the the 16-bit immediate section!
 For this reason, I have designed this.
 
-Inspiration is mainly Arm and their Thumb architecture, which I got the conditional instruction idea from.
+Inspiration is mainly Arm and their Thumb architecture, which I got the conditional instruction and 16-bit instruction ideas from.
 
 Still being drafted, it would be greatly appreciated if you open an issue with your suggestion to this ISA :)
 
@@ -14,7 +14,17 @@ Still being drafted, it would be greatly appreciated if you open an issue with y
 - memory can only be accessed by load stores
 - no immediates outside of shift
 - status flags: sign, zero, carry, overflow, greater than, equal to, less than
-- 4-bit opcode for 15 instructions: 0b1111 fetches an extra byte for an extended instruction
+- 4-bit opcode for 15 instructions: 0b1111 fetches an extra byte for an extended instructions
+#### Register layout
+| Name                | Symbol | Real register |
+|---------------------|--------|---------------|
+| Zero                | z      | 0             |
+| Instruction pointer | ip     | 1             |
+| Link register       | l      | 2             |
+| Stack pointer       | sp     | 3             |
+| Func args/result    | f1-5   | 4-8           |
+| General purpose     | r1-7   | 9-16          |
+
 #### 4 instruction formats
 Arithmetic:
 | Rop1   | Rop2  | Rdest | opcode |
