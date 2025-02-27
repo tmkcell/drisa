@@ -11,17 +11,6 @@ Still being drafted, it would be greatly appreciated if you open an issue with y
 - no immediates outside of shift
 - status flags: sign, zero, carry, overflow, greater than, equal to, less than
 - 3-bit opcode + 1-bit opextend, if set fetches extra byte as extension toinstruction
-#### Total set of instructions:
-| Opcode | Instruction                          |
-|--------|--------------------------------------|
-| 0b110  | load {byte, half, word}              |
-| 0b111  | store {byte, half, word}             |
-| 0b000  | add (conditional)                    |
-| 0b001  | subtract (conditional)               |
-| 0b010  | and (conditional)                    |
-| 0b011  | or (conditional)                     |
-| 0b100  | xor (conditional)                    |
-| 0b101  | shift {left, right, right sign-copy} |
 #### 3 instruction formats
 memory:
 | optype | Rsrc  | Rdest | opcode | opextend |
@@ -45,6 +34,17 @@ logical:
 
 - if shamt/regselect set, 5-bit shamt/reg will select a register, with the top bit being discarded
 - optype shifts left (0), right (1) or right with sign-copy (2)
+#### Total set of instructions:
+| Opcode | Format     | Instruction                          |
+|--------|------------|--------------------------------------|
+| 0b110  | Memory     | load {byte, half, word}              |
+| 0b111  | Memory     | store {byte, half, word}             |
+| 0b000  | Arithmetic | add (conditional)                    |
+| 0b001  | Arithmetic | subtract (conditional)               |
+| 0b010  | Arithmetic | and (conditional)                    |
+| 0b011  | Arithmetic | or (conditional)                     |
+| 0b100  | Arithmetic | xor (conditional)                    |
+| 0b101  | Logical    | shift {left, right, right sign-copy} |
 ### Extended integer instruction set (BRX)
 Adds multiplication, division and square root and not instructions to BRI
 ## Running (not implemented yet) 
