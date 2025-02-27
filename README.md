@@ -1,5 +1,9 @@
 # drisa
-A 32-bit ISA that aims for high code density
+After the [psyche](https://github.com/tmkcell/psyche) project, I realised that many instructions have a lot of wasted space that can be used. 
+For example, an ld instruction uses the I-type instruction format, but without actually using the the 16-bit immediate section!
+For this reason, I have designed this.
+
+Inspiration is mainly Arm and their Thumb architecture, which I got the conditional instruction idea from.
 
 Still being drafted, it would be greatly appreciated if you open an issue with your suggestion to this ISA :)
 
@@ -10,43 +14,59 @@ Still being drafted, it would be greatly appreciated if you open an issue with y
 - memory can only be accessed by load stores
 - no immediates outside of shift
 - status flags: sign, zero, carry, overflow, greater than, equal to, less than
-- 3-bit opcode + 1-bit opextend, if set fetches extra byte as extension toinstruction
-#### 3 instruction formats
-memory:
-| optype | Rsrc  | Rdest | opcode | opextend |
-|--------|-------|-------|--------|----------|
-| 4-bit  | 4-bit | 4-bit | 3-bit  | 1-bit    |
+- 4-bit opcode for 15 instructions: 0b1111 fetches an extra byte for an extended instruction
+#### 4 instruction formats
+Arithmetic:
+| Rop1   | Rop2  | Rdest | opcode |
+|--------|-------|-------|--------|
+| 4-bit  | 4-bit | 4-bit | 4-bit  |
 
-- optype loads/stores a byte (0), a half (1) or a word (3)
+Logical:
 
-arithmetic:
-| cond   | Rsrc  | Rdest | opcode | opextend |
-|--------|-------|-------|--------|----------|
-| 4-bit  | 4-bit | 4-bit | 3-bit  | 1-bit    |
-
-- cond only performs operation if less that set (1), equal to set (2), greater than set (3) or performs unconditionally (0)
-
-logical:
-
-| shamt/regselect | optype | shamt/reg | Rdest | opcode | opextend |
-|-----------------|--------|-----------|-------|--------|----------|
-| 1-bit           | 2-bit | 5-bit      | 4-bit | 3-bit  | 1-bit    |
+| shamt/regselect | optype | shamt/reg | Rdest/Rop1 | opcode |
+|-----------------|--------|-----------|------------|--------|
+| 1-bit           | 2-bit | 5-bit      | 4-bit      | 4-bit  |
 
 - if shamt/regselect set, 5-bit shamt/reg will select a register, with the top bit being discarded
 - optype shifts left (0), right (1) or right with sign-copy (2)
+
+Memory:
+| pcskip | optype | Rop1  | Rdest | opcode |
+|--------|--------|-------|-------|--------|
+| 2-bit  | 2-bit  | 4-bit | 4-bit | 4-bit  |
+
+- pcskip gets added to PC
+- optype loads/stores a byte (0), a half (1) or a word (3)
+
+Conditional:
+| cond   | Rsrc  | Rdest | opcode |
+|--------|-------|-------|--------|
+| 4-bit  | 4-bit | 4-bit | 4-bit  |
+
+- cond only performs operation if less that set (1), equal to set (2), greater than set (3) or performs unconditionally (0)
+
 #### Total set of instructions:
-| Opcode | Format     | Instruction                          |
-|--------|------------|--------------------------------------|
-| 0b110  | Memory     | load {byte, half, word}              |
-| 0b111  | Memory     | store {byte, half, word}             |
-| 0b000  | Arithmetic | add (conditional)                    |
-| 0b001  | Arithmetic | subtract (conditional)               |
-| 0b010  | Arithmetic | and (conditional)                    |
-| 0b011  | Arithmetic | or (conditional)                     |
-| 0b100  | Arithmetic | xor (conditional)                    |
-| 0b101  | Logical    | shift {left, right, right sign-copy} |
+| Opcode | Format      | Instruction                          |
+|--------|-------------|--------------------------------------|
+| 0b0000 | Arithmetic  | add                                  |
+| 0b0001 | Arithmetic  | subtract                             |
+| 0b0010 | Arithmetic  | and                                  |
+| 0b0011 | Arithmetic  | or                                   |
+| 0b0100 | Arithmetic  | xor                                  |
+| 0b0101 | Logical     | shift {left, right, right sign-copy} |
+| 0b0110 | Memory      | load {byte, half, word}              |
+| 0b0111 | Memory      | store {byte, half, word}             |
+| 0b1000 | Conditional | conditional add                      |
+| 0b1001 | Conditional | conditional subtract                 |
+| 0b1010 | Conditional | conditional and                      |
+| 0b1011 | Conditional | conditional or                       |
+| 0b1100 | Conditional | conditional xor                      |
 ### Extended integer instruction set (BRX)
-Adds multiplication, division and square root and not instructions to BRI
+Adds multiplication and division capabilities
+| Opcode | Format     | Instruction |
+|--------|------------|-------------|
+| 0b1101 | Arithmetic | mulitply    |
+| 0b1110 | Arithmetic | divide      |
 ## Running (not implemented yet) 
 #### 1. Clone repo
 ```
