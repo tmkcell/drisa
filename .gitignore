@@ -1,6 +1,9 @@
 a.out
 *.bin
 .mold*
+lib
+lib/
+lib/*
 dump*
 build/
 install/

@@ -1,4 +1,7 @@
 # drisa
+
+A monorepo containing tools and specification for the drisa instruction set; contains an assembler and an emulator (both currently incomplete)
+
 After the [psyche](https://github.com/tmkcell/psyche) project, I realised that many instructions have a lot of wasted space that can be used. 
 For example, an ld instruction uses the I-type instruction format, but without actually using the the 16-bit immediate section!
 For this reason, I have designed this.
@@ -7,7 +10,21 @@ Inspiration is mainly Arm and their Thumb architecture, which I got the conditio
 
 Still being drafted, it would be greatly appreciated if you open an issue with your suggestion to this ISA :)
 
-## Architecture
+## Building/running
+
+drisa-asm and drisa-emu are both written in [c3](https://c3-lang.org/), so you will need the c3 compiler.
+
+You can build the emulator with:
+```
+c3c build drisa-emu 
+```
+Or for the assembler with:
+```
+c3c build drisa-asm
+```
+Both will create an executable in `build` :P
+
+## Architecture specification
 
 16-bit instructions, 16 32-bit registers
 - all registers can be used the same, including IP (PC), SP etc
@@ -58,35 +75,24 @@ Conditional:
 - cond only performs operation if the condition is true or cond = 0
 
 #### Total set of instructions:
-| Opcode | Format      | Instruction                          |
-|--------|-------------|--------------------------------------|
-| 0b0000 | Arithmetic  | add                                  |
-| 0b0001 | Arithmetic  | subtract                             |
-| 0b0010 | Arithmetic  | and                                  |
-| 0b0011 | Arithmetic  | or                                   |
-| 0b0100 | Arithmetic  | xor                                  |
-| 0b0101 | Logical     | shift {left, right, right sign-copy} |
-| 0b0110 | Memory      | load {byte, half, word}              |
-| 0b0111 | Memory      | store {byte, half, word}             |
-| 0b1000 | Conditional | conditional add                      |
-| 0b1001 | Conditional | conditional subtract                 |
-| 0b1010 | Conditional | conditional and                      |
-| 0b1011 | Conditional | conditional or                       |
-| 0b1100 | Conditional | conditional xor                      |
+| Opcode | Format      | Mnemonic    | Instruction                           |
+|--------|-------------|-------------|---------------------------------------|
+| 0b0000 | Arithmetic  | add         | add                                   |
+| 0b0001 | Arithmetic  | sub         | subtract                              |
+| 0b0010 | Arithmetic  | and         | and                                   |
+| 0b0011 | Arithmetic  | or          | or                                    |
+| 0b0100 | Arithmetic  | xor         | xor                                   |
+| 0b0101 | Logical     | s(r){l,r,a} | shift (reg) {left, right, arithmetic} |
+| 0b0110 | Memory      | ld{b,h,w}   | load {byte, half, word}               |
+| 0b0111 | Memory      | st{b,h,w}   | store {byte, half, word}              |
+| 0b1000 | Conditional | cadd        | conditional add                       |
+| 0b1001 | Conditional | csub        | conditional subtract                  |
+| 0b1010 | Conditional | cand        | conditional and                       |
+| 0b1011 | Conditional | cor         | conditional or                        |
+| 0b1100 | Conditional | cxor        | conditional xor                       |
 ### Extended integer instruction set (DR-IX)
 Adds multiplication and division capabilities
 | Opcode | Format     | Instruction |
 |--------|------------|-------------|
 | 0b1101 | Arithmetic | mulitply    |
 | 0b1110 | Arithmetic | divide      |
-## Running (not implemented yet) 
-#### 1. Clone repo
-```
-git clone https://github.com/tmkcell/drisa.git && cd drisa
-```
-#### 2. Compile with meson build system (and install missing dependencies!)
-```
-meson setup build
-meson compile -C build
-meson install -C build
-```
