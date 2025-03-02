@@ -14,10 +14,10 @@ Still being drafted, it would be greatly appreciated if you open an issue with y
 - memory can only be accessed by load stores
 - no immediates outside of shift
 - status flags: sign, zero, carry, overflow, (greater than, equal to, less than will be assembly abstractions) 
-- 4-bit opcode for 15 instructions: 0b1111 fetches an extra byte for an extended instructions
+- 4-bit opcode for 15 instructions: 0b1111 fetches an extra byte for an instruction not in the base ISA
 
-### Base integer instruc tion setDR-I)
-#### Rter layout
+### Base integer instruction set (DR-I)
+#### Register layout
 | Name                | Symbol | Real register |
 |---------------------|--------|---------------|
 | Zero                | z      | 0             |
