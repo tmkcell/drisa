@@ -12,7 +12,7 @@ Still being drafted, it would be greatly appreciated if you open an issue with y
 
 ## Building/running
 
-> **Warning**
+> [!WARNING] 
 > Both drisa-asm and drisa-emu are incomplete, so running the below command may not get working applications. Please wait for a stable release
 
 drisa-asm and drisa-emu are both written in [c3](https://c3-lang.org/), so you will need the c3 compiler.
