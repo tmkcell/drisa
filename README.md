@@ -4,7 +4,7 @@ A monorepo containing tools and specification for the drisa instruction set; con
 
 After the [psyche](https://github.com/tmkcell/psyche) project, I realised that many instructions have a lot of wasted space that can be used. 
 For example, an ld instruction uses the I-type instruction format, but without actually using the the 16-bit immediate section!
-For this reason, I have designed this.
+For this reason, I have designed this ISA. 
 
 Inspiration is mainly Arm and their Thumb architecture, which I got the conditional instruction and 16-bit instruction ideas from.
 
@@ -12,16 +12,21 @@ Still being drafted, it would be greatly appreciated if you open an issue with y
 
 ## Building/running
 
+> **Warning**
+> Both drisa-asm and drisa-emu are incomplete, so running the below command may not get working applications. Please wait for a stable release
+
 drisa-asm and drisa-emu are both written in [c3](https://c3-lang.org/), so you will need the c3 compiler.
 
 You can build the emulator with:
 ```
 c3c build drisa-emu 
 ```
-Or for the assembler with:
+Or the assembler with:
 ```
 c3c build drisa-asm
 ```
+If the compiler complains about missing libraries, make a folder called `lib` in the repo's root directory
+
 Both will create an executable in `build` :P
 
 ## Architecture specification
