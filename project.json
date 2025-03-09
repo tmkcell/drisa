@@ -1,0 +1,23 @@
+{
+  "langrev": "1",
+  "warnings": [ "no-unused" ],
+  "dependency-search-paths": [ "lib" ],
+  "dependencies": [ ],
+  "authors": [ "Maakis Thoppae <tmaakis@gmail.com>" ],
+  "version": "0.1.0",
+  // "c-sources": [ "csource/**" ],
+  // "c-include-dirs": [ "csource/include" ],
+  "output": "build",
+  "targets": {
+    "drisa-asm": {
+      "type": "executable",
+      "sources": [ "asm/*" ],
+      "test-sources": [ "tests/asm/**" ],
+    },
+    "drisa-emu": {
+      "type": "executable",
+      "sources": [ "emu/*" ],
+      "test-sources": [ "tests/emu/**" ],
+    },
+  },
+}
