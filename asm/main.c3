@@ -23,7 +23,7 @@ fn int main(String[] args) {
     // todo: sort paths out
     Path! filepath = io::path::new_cwd();
     if (catch err = filepath) {
-        io::printfn("Error: %s", err);
+        io::printfn("\e[31merror:\e[0m %s", err);
     }
 
     for (int i = 1; i < args.len; ++i) {
@@ -43,12 +43,12 @@ Options:
                 case 'o':
                     filepath = io::path::new(args[++i]);
                 default:
-                    io::printfn("Error: unrecognised option \"%s\"", args[i]);
+                    io::printfn("\e[31merror:\e[0m unrecognised option \"%s\"", args[i]);
                     return 1;
             }
         } else {
             if (i == args.len - 1) break;
-            io::printfn("Error: unrecognised option \"%s\"", args[i]);
+            io::printfn("\e[31merror:\e[0m unrecognised option \"%s\"", args[i]);
             return 1;
         }
     }
@@ -56,14 +56,14 @@ Options:
     // load text file into buffer
     char[]! buf = file::load_new(args[args.len-1]);
     if (catch err = buf) {
-        io::printfn("Error: %s", err);
+        io::printfn("\e[31merror:\e[0m %s", err);
         return 1;
     }
     
     // open out file
     File! out = io::file::open(filepath.basename(), "w");
     if (catch err = out) {
-        io::printfn("Error: %s", err);
+        io::printfn("\e[31merror:\e[0m %s", err);
         return 1;
     }
 
@@ -113,7 +113,7 @@ Options:
             case "cxor": inst = 0b1100;
             case "adds": inst = 0b1100;
             case "subs": inst = 0b1101;
-            default: io::printfn("Error: unrecognised instruction \"%s\"", token); return 1;
+            default: io::printfn("\e[31merror:\e[0m unrecognised instruction \"%s\"", token); return 1;
         }
         
         // set operands
@@ -123,7 +123,7 @@ Options:
             if (j < 2 || (j < 1 && (inst & 0xf == 0b0101))) { // check until next operand only if instruction has one
                 while (buf[i] != ',') {
                     if (buf[i] == '\n') { // if there is a new line error because we haven't enough operands
-                        io::printfn("Error: provided %i operands is less than expected", j+1);
+                        io::printfn("\e[31merror:\e[0m provided %i operands is less than expected", j+1);
                         return 1;
                     }
                     else { ++i; }
@@ -140,14 +140,14 @@ Options:
                 ushort shamt;
                 for (int k; k < token.len; ++k) shamt = shamt * 10 + token[k] - '0';
                 if (shamt > 31) {
-                    io::printfn("Error: shamt \"%i\" is greater than 31", shamt);
+                    io::printfn("\e[31merror:\e[0m shamt \"%i\" is greater than 31", shamt);
                     return 1;
                 }
                 inst |= shamt << 8;
                 break SETOPERANDS;
             } else if (j == 3 && ((inst >> 1) & 0b111) == 0b11) { // set pcskip
                 if (token[token.len-1] - '0' > 3) {
-                    io::printfn("Error: pcskip \"%c\" is greater than 3", token[token.len-1]);
+                    io::printfn("\e[31merror:\e[0m pcskip \"%c\" is greater than 3", token[token.len-1]);
                     return 1;
                 }
                 inst |= (token[token.len-1] - '0') << ((j + 1) * 4);
@@ -165,11 +165,11 @@ Options:
                     case "nso": inst |= 0b1000 << 12;
                     case "sge": inst |= 0b1101 << 12;
                     case "slt": inst |= 0b1100 << 12;
-                    default: io::printfn("Error: unrecognised condition \"%s\"", token); return 1;
+                    default: io::printfn("\e[31merror:\e[0m unrecognised condition \"%s\"", token); return 1;
                 }
             } else {
                 if (get_real_register(token) == -1) {
-                    io::printfn("Error: register \"%s\" is invalid", token);
+                    io::printfn("\e[31merror:\e[0m register \"%s\" is invalid", token);
                     return 1;
                 }
                 inst |= (ushort)get_real_register(token) << ((j + 1) * 4);
