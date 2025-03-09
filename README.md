@@ -39,6 +39,9 @@ Both will create an executable in `build` :P
 - 4-bit opcode for 15 instructions: 0b1111 fetches an extra byte for an instruction not in the base ISA
 
 ### Base integer instruction set (DR-I)
+#### Notes
+- Instructions are layed out in machine code reverse of their assembly representation
+
 #### Register layout
 | Name                | Symbol | Real register |
 |---------------------|--------|---------------|
@@ -51,24 +54,28 @@ Both will create an executable in `build` :P
 
 #### 4 instruction formats
 Arithmetic:
-| Rop1   | Rop2  | Rdest | opcode |
+| Rop2   | Rop1  | Rdest | opcode |
 |--------|-------|-------|--------|
 | 4-bit  | 4-bit | 4-bit | 4-bit  |
+
+- layout: $inst Rdest, Rop1, Rop2
 
 Logical:
 
 | shamt/regselect | optype | shamt/reg | Rdest&Rop1 | opcode |
 |-----------------|--------|-----------|------------|--------|
-| 1-bit           | 2-bit | 5-bit      | 4-bit      | 4-bit  |
+| 1-bit           | 2-bit  | 5-bit     | 4-bit      | 4-bit  |
 
+- layout: $inst Rdest/Rop1, shamt/reg
 - if shamt/regselect set, 5-bit shamt/reg will select a register, with the top bit being discarded
 - optype shifts left (0), right (2) or right with sign-copy (3)
 
 Memory:
-| pcskip | optype | Rop1  | Rdest | opcode |
+| optype | pcskip | Rop1  | Rdest | opcode |
 |--------|--------|-------|-------|--------|
 | 2-bit  | 2-bit  | 4-bit | 4-bit | 4-bit  |
 
+- layout: $inst Rdest, Rop1, (IP += )pcskip
 - pcskip gets added to PC
 - optype loads/stores a byte (0), a half (1) or a word (3)
 
@@ -77,6 +84,7 @@ Conditional:
 |--------|-------|------------|--------|
 | 4-bit  | 4-bit | 4-bit      | 4-bit  |
 
+- layout: $inst Rdest/Rop1, Rop2, cond
 - cond only performs operation if the condition is true or cond = 0
 
 #### Total set of instructions:
