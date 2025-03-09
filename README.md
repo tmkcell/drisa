@@ -52,6 +52,22 @@ Both will create an executable in `build` :P
 | Func args/result    | f1-4   | 4-7           |
 | General purpose     | r1-8   | 8-15          |
 
+#### Condition codes
+| Bits   | Name                         | Symbol | Flags   |
+|--------|------------------------------|--------|---------|
+| 0b0001 | true                         | tr     | none    |
+| 0b0000 | false                        | fl     | none    |
+| 0b0011 | equal                        | eq     | z == 1  |
+| 0b0010 | not equal                    | neq    | z == 0  |
+| 0b0101 | negative                     | neg    | s == 1  |
+| 0b0100 | positive                     | pos    | s == 0  |
+| 0b0111 | greater than/equal to        | ge     | c == 1  |
+| 0b0110 | less than                    | lt     | c == 0  |
+| 0b1001 | signed overflow              | so     | v == 1  |
+| 0b1000 | no signed overflow           | nso    | v == 0  |
+| 0b1101 | signed greater than/equal to | sge    | s == v  |
+| 0b1100 | signed less than             | slt    | !s == v |
+
 #### 4 instruction formats
 Arithmetic:
 | Rop2   | Rop1  | Rdest | opcode |
@@ -103,9 +119,8 @@ Conditional:
 | 0b1010 | Conditional | cand        | conditional and                       |
 | 0b1011 | Conditional | cor         | conditional or                        |
 | 0b1100 | Conditional | cxor        | conditional xor                       |
+| 0b1101 | Arithmetic  | adds        | add sign                              |
+| 0b1110 | Arithmetic  | subs        | subtract sign                         |
+| 0b1111 | Extended    |             | prefix for extended instruction       |
 ### Extended integer instruction set (DR-IX)
 Adds multiplication and division capabilities
-| Opcode | Format     | Instruction |
-|--------|------------|-------------|
-| 0b1101 | Arithmetic | mulitply    |
-| 0b1110 | Arithmetic | divide      |
