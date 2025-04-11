@@ -29,6 +29,11 @@ If the compiler complains about missing libraries, make a folder called `lib` in
 
 Both will create an executable in `build` :P
 
+> [!WARNING] 
+> The build script for the micro:bit emulator is NOT safe to use, use at your own risk.
+
+Additionally, there is also an emulator for the BBC micro:bit written in C++. To compile this you should run the build.sh script in the microbit folder. This will download the required toolchain and libraries, and output a .hex file which you can copy onto the micro:bit. To include a drisa executable, assemble a file using the '-c' parameter to output an header file instead of a binary.
+
 ## Architecture specification
 
 16-bit instructions, 16 32-bit registers
